@@ -20,6 +20,11 @@ var client *genai.Client
 func getFileBytes(src string) ([]byte, error) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
+		Transport: &http.Transport{
+			MaxConnsPerHost:     50,
+			MaxIdleConnsPerHost: 50,
+			MaxIdleConns:        100,
+		},
 	}
 
 	req, err := http.NewRequest("GET", src, nil)
